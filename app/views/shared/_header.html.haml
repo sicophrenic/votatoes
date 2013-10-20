@@ -14,6 +14,12 @@
     %ul.nav.navbar-nav.pull-right
       - if user_signed_in?
         %li
+          %a{ :href => find_votato_path }
+            Search
+        %li
+          %a{ :href => plantations_path }
+            Your Plantations
+        %li
           %a{ :href => destroy_user_session_path }
             Sign Out
       - else

@@ -4,18 +4,24 @@
   %table.table.table-bordered.table-hover
     %thead
       %tr
-        %th
+        %th.col-lg-1
           Vote
-        %th
-          Current
+        %th.col-lg-2
+          Current Ranking
         %th
           Title
+        %th
     %tbody
       - @votatoes.each do |votato|
         %tr
-          %td X
-          %td #{votato.total}
+          %td.col-lg-1
+            = link_to plant_path(votato.id), :method => :post, :class => 'btn btn-success btn-sm' do
+              %span.glyphicon.glyphicon-arrow-up
+            = link_to pluck_path(votato.id), :method => :post, :class => 'btn btn-danger btn-sm' do
+              %span.glyphicon.glyphicon-arrow-down
+          %td.col-lg-2 #{votato.total}
           %td= link_to votato.title, '#'
+          %td= link_to 'Destroy', destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
 - else
   .jumbotron
     .container

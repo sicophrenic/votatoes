@@ -14,7 +14,8 @@ Votatoes::Application.routes.draw do
   get 'votatos/search', :as => 'search_votato'
   # post 'votatos/search', :as => 'search_votato'
   get 'votatos/new/:series_id' => 'votatos#new_votato', :as => 'new_votato'
-  post 'votatoes/create/:series_id' => 'votatos#create_votato', :as => 'create_votato'
+  post 'votatos/create/:series_id' => 'votatos#create_votato', :as => 'create_votato'
+  delete 'votatos/:id' => 'votatos#destroy', :as => 'destroy_votato'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

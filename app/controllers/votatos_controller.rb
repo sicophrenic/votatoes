@@ -1,6 +1,6 @@
 class VotatosController < ApplicationController
-  before_action :require_signed_in :except => [:plant, :pluck]
-  before_action :set_votato, :only => [:plant, :pluck]
+  before_action :require_signed_in, :except => [:plant, :pluck]
+  before_action :set_votato, :only => [:plant, :pluck, :destroy]
 
   def find
   end
@@ -41,6 +41,7 @@ class VotatosController < ApplicationController
     return unless user_signed_in? || @votato.plantation.privacy == 'Public'
     @votato.total += 1
     @votato.save
+    redirect_to @votato.plantation
   end
 
   def pluck # downvote
@@ -49,6 +50,13 @@ class VotatosController < ApplicationController
       @votato.total -= 1
       @votato.save
     end
+    redirect_to @votato.plantation
+  end
+
+  def destroy
+    @plantation = @votato.plantation
+    @votato.destroy
+    redirect_to @plantation
   end
 
   # before_action :set_votato, only: [:show, :edit, :update, :destroy]

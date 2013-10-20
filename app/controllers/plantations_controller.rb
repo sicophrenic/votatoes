@@ -11,7 +11,7 @@ class PlantationsController < ApplicationController
   # GET /plantations/1
   # GET /plantations/1.json
   def show
-    @votatoes = @plantation.votatoes
+    @votatoes = @plantation.votatoes.order('total DESC, updated_at DESC')
   end
 
   # GET /plantations/new

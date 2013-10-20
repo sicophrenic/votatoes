@@ -1,0 +1,2 @@
+module PlantationsHelper
+end

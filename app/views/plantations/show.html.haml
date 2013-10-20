@@ -1,0 +1,32 @@
+%h1 #{@plantation.name}
+
+- if @votatoes.count > 0
+  %table.table.table-bordered.table-hover
+    %thead
+      %tr
+        %th
+          Vote
+        %th
+          Current
+        %th
+          Title
+    %tbody
+      - @votatoes.each do |votato|
+        %tr
+          %td X
+          %td #{votato.total}
+          %td= link_to votato.title, '#'
+- else
+  .jumbotron
+    .container
+      %h2 You don't have any votatoes yet!
+      %p Start by adding some more to plantation '#{@plantation.name}'
+      %p
+        = link_to 'Start Here', find_votato_path, :class => 'btn btn-primary btn-large'
+
+%br
+
+- if @plantation.user == current_user
+  = link_to 'Edit', edit_plantation_path(@plantation)
+  \|
+= link_to 'Back', plantations_path

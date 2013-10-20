@@ -1,0 +1,17 @@
+%h1 Listing votatos
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @votatos.each do |votato|
+    %tr
+      %td= link_to 'Show', votato
+      %td= link_to 'Edit', edit_votato_path(votato)
+      %td= link_to 'Destroy', votato, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Votato', new_votato_path

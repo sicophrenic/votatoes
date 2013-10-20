@@ -1,0 +1,7 @@
+= form_for @plantation, :class => 'form-horizontal' do |f|
+  - if @plantation.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@plantation.errors.count, "error")} prohibited this plantation from being saved:"
+      %ul
+        - @plantation.errors.full_messages.each do |msg|
+          %li= msg

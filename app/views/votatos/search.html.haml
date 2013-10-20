@@ -1,0 +1,22 @@
+%h1 Search
+
+- if @results.count > 0
+  %table.table.table-bordered.table-hover
+    %thead
+      %tr
+        %th
+          Field 1
+        %th
+          Field 2
+        %th
+    %tbody
+      - @results.each do |result|
+        %tr
+          %td
+            #{result[:series_id]}
+          %td
+            #{result[:title]}
+          %td
+            = link_to 'Add', new_votato_path(result[:series_id])
+- else
+  Crap.

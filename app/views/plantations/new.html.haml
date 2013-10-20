@@ -1,0 +1,22 @@
+%h1 New plantation
+
+= form_tag plantations_path, :method => :post, :role => 'form', :class => 'form-horizontal' do
+  .form-group
+    = label_tag 'plantation[name]', 'Name', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = text_field_tag 'plantation[name]', nil, :placeholder => 'Enter a name', :class => 'form-control', :type => 'text'
+  .form-group
+    = label_tag 'plantation[media]', 'Media', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = select_tag 'plantation[media]', "<option>Movie</option><option>TV</option>".html_safe, :class => 'form-control'
+  .form-group
+    = label_tag 'plantation[privacy]', 'Privacy', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = select_tag 'plantation[privacy]', "<option>Public</option><option>Private</option>".html_safe, :class => 'form-control'
+
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = submit_tag 'Submit', :class => 'btn btn-default'
+
+= link_to 'Back', plantations_path
+

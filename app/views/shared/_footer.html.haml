@@ -1,0 +1,11 @@
+- if Rails.env.development?
+  .debug
+    _____
+    %h2 Debug Info:
+    %h3 Params:
+    = params.inspect
+    %h3 Flash:
+    = flash.inspect
+    - if session[:admin_loaded]
+      %h3 Session:
+      = session.inspect

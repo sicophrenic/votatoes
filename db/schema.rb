@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131020212119) do
+ActiveRecord::Schema.define(version: 20131021223248) do
 
   create_table "plantations", force: true do |t|
     t.integer  "user_id",    null: false
     t.string   "name",       null: false
     t.string   "media",      null: false
     t.string   "privacy",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tmdbobjs", force: true do |t|
+    t.string   "name"
+    t.integer  "tmdb_id"
+    t.text     "description"
+    t.string   "image_url"
+    t.string   "imdb_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -56,7 +66,7 @@ ActiveRecord::Schema.define(version: 20131020212119) do
 
   create_table "votatos", force: true do |t|
     t.integer  "plantation_id",             null: false
-    t.integer  "tvdbobj_id"
+    t.integer  "obj_id"
     t.integer  "total",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"

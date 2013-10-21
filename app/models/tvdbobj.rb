@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-#
 class Tvdbobj < ActiveRecord::Base
   attr_accessible :series_id, :name, :description, :image_url
 
@@ -5,7 +6,7 @@ class Tvdbobj < ActiveRecord::Base
     "http://www.thetvdb.com/banners/#{image_url}"
   end
 
-  def link_to_tvdb
+  def external_link
     "http://thetvdb.com/?tab=series&id=#{series_id}"
   end
 end

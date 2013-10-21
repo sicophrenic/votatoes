@@ -11,15 +11,19 @@
         %th.col-lg-1
           Add
     %tbody
-      - @movies_or_tvs.each do |tvdbobj|
+      - @movies_or_tvs.each do |obj|
         %tr
           %td.col-lg-2
-            %a{ :href => tvdbobj.link_to_tvdb }
-              #{tvdbobj.name}
+            %a{ :href => obj.external_link }
+              #{obj.name}
           %td.col-lg-9
-            #{tvdbobj.description}
+            #{obj.description}
           %td.col-lg-1
-            = link_to new_votato_path(tvdbobj.id), :method => :get, :class => 'btn btn-info btn-small' do
-              %span.glyphicon.glyphicon-plus
+            - if obj.is_a?(Tvdbobj)
+              = link_to new_tvdb_votato_path(obj.id), :method => :get, :class => 'btn btn-info btn-small' do
+                %span.glyphicon.glyphicon-plus
+            - else
+              = link_to new_tmdb_votato_path(obj.id), :method => :get, :class => 'btn btn-info btn-small' do
+                %span.glyphicon.glyphicon-plus
 - else
   Crap.

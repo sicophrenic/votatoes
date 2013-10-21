@@ -23,7 +23,8 @@ gem 'protected_attributes'
 
 # Libraries
 gem 'devise'
-gem 'tvdb_party'
+gem 'tvdb_party' # TV shows
+gem 'themoviedb' # Movies
 
 group :production do
   gem 'thin'

@@ -1,19 +1,24 @@
+#-*- coding: utf-8 -*-#
 class VotatosController < ApplicationController
   before_action :require_signed_in, :except => [:plant, :pluck]
   before_action :set_votato, :only => [:plant, :pluck, :destroy]
-  before_action :load_tvdb, :only => [:tvdb]
+  before_action :load_tvdb, :only => [:query]
 
   def find
   end
 
-  def tvdb
-    if params[:media] == 'TV'
-      search_query = params[:terms]
-      @results = @tvdb.search(search_query)
-    elsif params[:media] == 'Movie'
-      flash[:notice] = 'Movies not supported yet.'
-      redirect_to plantations_path
+  def query
+    search_query = params[:terms]
+    if search_query.nil?
+      flash[:notice] = 'No search terms provided.'
+      redirect_to find_votato_path
       return
+    end
+    @media = params[:media]
+    if @media == 'TV'
+      @results = @tvdb.search(search_query)
+    elsif @media == 'Movie'
+      @results = Tmdb::Movie.find(search_query)
     else
       flash[:error] = 'Invalid media type selected.'
       redirect_to find_votato_path
@@ -25,31 +30,66 @@ class VotatosController < ApplicationController
   def search
     @movies_or_tvs = []
     @results.each do |r|
-      series_id = r['seriesid'].to_i
-      tvdbobj = Tvdbobj.where(:series_id => series_id).first
-      if tvdbobj.nil?
-        @movies_or_tvs << Tvdbobj.create(
-          :series_id => series_id,
-          :name => r['SeriesName'],
-          :description => r['Overview'],
-          :image_url => r['banner'])
-      else
-        @movies_or_tvs << tvdbobj
+      if @media == 'TV'
+        series_id = r['seriesid'].to_i
+        tvdbobj = Tvdbobj.where(:series_id => series_id).first
+        if tvdbobj.nil?
+          @movies_or_tvs << Tvdbobj.create(
+            :series_id => series_id,
+            :name => r['SeriesName'],
+            :description => r['Overview'],
+            :image_url => r['banner'])
+        else
+          @movies_or_tvs << tvdbobj
+        end
+      elsif @media == 'Movie'
+        tmdb_id = r.id
+        tmdbobj = Tmdbobj.where(:tmdb_id => tmdb_id).first
+        if tmdbobj.nil?
+          details = Tmdb::Movie.detail(r.id)
+          @movies_or_tvs << Tmdbobj.create(
+            :tmdb_id => tmdb_id,
+            :name => details.title,
+            :description => details.overview,
+            :image_url => details.poster_path,
+            :imdb_id => details.imdb_id)
+        else
+          @movies_or_tvs << tmdbobj
+        end
       end
     end
     render 'search'
   end
 
-  def new_votato
-    @tvdbobj = Tvdbobj.find(params[:tvdbobj_id])
+  def new_tvdb_votato
+    @tvdbobj = Tvdbobj.find(params[:obj_id])
+    plantations = current_user.plantations.where(:media => 'TV')
     @plantations_options = '<option>' +
-      current_user.plantations.collect(&:name).join('</option><option>') +
+      plantations.collect(&:name).join('</option><option>') +
       '</option>'
   end
+  def create_tvdb_votato
+    @votato = Votato.new(:obj_id => params[:obj_id])
+    @plantation = Plantation.find_by(:user_id => current_user.id, :name => params[:plantation])
+    if @plantation.nil?
+      flash[:error] = "You don't own that Plantation!"
+      redirect_to new_votato
+      return
+    end
+    @votato.plantation = @plantation
+    @votato.save
+    redirect_to @plantation
+  end
 
-  def create_votato
-    puts "-----#{params}-----"
-    @votato = Votato.new(:tvdbobj_id => params[:tvdbobj_id])
+  def new_tmdb_votato
+    @tmdbobj = Tmdbobj.find(params[:obj_id])
+    plantations = current_user.plantations.where(:media => 'Movie')
+    @plantations_options = '<option>' +
+      plantations.collect(&:name).join('</option><option>') +
+      '</option>'
+  end
+  def create_tmdb_votato
+    @votato = Votato.new(:obj_id => params[:obj_id])
     @plantation = Plantation.find_by(:user_id => current_user.id, :name => params[:plantation])
     if @plantation.nil?
       flash[:error] = "You don't own that Plantation!"

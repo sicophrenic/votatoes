@@ -1,0 +1,11 @@
+%h1 Add Votato: #{@tmdbobj.name}
+
+= form_tag create_tmdb_votato_path(@tmdbobj.id), :method => :post, :role => 'form', :class => 'form-horizontal' do
+  .form-group
+    = label_tag 'plantation', 'Plantation', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = select_tag 'plantation', @plantations_options.html_safe, :class => 'form-control'
+
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = submit_tag 'Add Votato', :class => 'btn btn-default'

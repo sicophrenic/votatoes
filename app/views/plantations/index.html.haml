@@ -22,7 +22,9 @@
           %td= link_to plantation.name, plantation_path(plantation)
           %td #{plantation.votatos.count} #{pluralized}
           %td #{plantation.last_updated_at}
-          %td= link_to 'Destroy', plantation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %td
+            = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
+              %span.glyphicon.glyphicon-remove
   %br
 - else
   .jumbotron

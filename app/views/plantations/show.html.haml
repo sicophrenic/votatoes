@@ -10,8 +10,14 @@
           Ranking
         %th.col-lg-2
           Title
-        %th.col-lg-7
-          Banner
+        - if @plantation.media == 'TV'
+          %th.col-lg-7
+            Banner
+        - else
+          %th.col-lg-2
+            Banner
+          %th.col-lg-5
+            Description
         %th.col-lg-1
           Action
     %tbody
@@ -23,9 +29,15 @@
             = link_to pluck_path(votato.id), :method => :post, :class => 'btn btn-danger btn-xs' do
               %span.glyphicon.glyphicon-arrow-down
           %td.col-lg-1 #{votato.total}
-          %td.col-lg-2= link_to votato.tvdbobj.name, votato.tvdbobj.link_to_tvdb
-          %td.col-lg-7
-            %img{ :src => votato.tvdbobj.img_src }
+          %td.col-lg-2= link_to votato.obj.name, votato.obj.external_link
+          - if @plantation.media == 'TV'
+            %td.col-lg-7
+              %img{ :src => votato.obj.img_src }
+          - else
+            %td.col-lg-2
+              %img{ :src => votato.obj.img_src }
+            %td.col-lg-5
+              #{votato.obj.description}
           %td.col-lg-1
             = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
               %span.glyphicon.glyphicon-remove

@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-#
 Votatoes::Application.routes.draw do
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -12,16 +13,20 @@ Votatoes::Application.routes.draw do
   get "pages/home"
   get 'votatos/find', :as => 'find_votato'
   get 'votatos/search', :as => 'search_votato'
-  # post 'votatos/search', :as => 'search_votato'
-  get 'votatos/new/:tvdbobj_id' => 'votatos#new_votato', :as => 'new_votato'
-  post 'votatos/create/:tvdbobj_id' => 'votatos#create_votato', :as => 'create_votato'
+
+  get 'votatos/new/:obj_id/tvdb' => 'votatos#new_tvdb_votato', :as => 'new_tvdb_votato'
+  post 'votatos/create/:obj_id/tvdb' => 'votatos#create_tvdb_votato', :as => 'create_tvdb_votato'
+  get 'votatos/new/:obj_id/tmdb' => 'votatos#new_tmdb_votato', :as => 'new_tmdb_votato'
+  post 'votatos/create/:obj_id/tmdb' => 'votatos#create_tmdb_votato', :as => 'create_tmdb_votato'
+
   delete 'votatos/:id' => 'votatos#destroy', :as => 'destroy_votato'
+  delete 'plantations/:id' => 'plantations#destroy', :as => 'destroy_plantation'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
   post 'votatos/:id/plant' => 'votatos#plant', :as => 'plant'
   post 'votatos/:id/pluck' => 'votatos#pluck', :as => 'pluck'
-  post 'tvdb' => 'votatos#tvdb'
+  post 'query' => 'votatos#query'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

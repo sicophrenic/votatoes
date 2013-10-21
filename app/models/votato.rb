@@ -1,10 +1,19 @@
+#-*- coding: utf-8 -*-#
 class Votato < ActiveRecord::Base
-  attr_accessible :total, :tvdbobj_id
+  attr_accessible :total, :obj_id
 
   belongs_to :plantation
 
-  def tvdbobj
-    Tvdbobj.find(tvdbobj_id)
+  def obj
+    if media_type == 'TV'
+      Tvdbobj.find(obj_id)
+    elsif media_type == 'Movie'
+      Tmdbobj.find(obj_id)
+    end
+  end
+
+  def media_type
+    plantation.media
   end
 
   def self.generate_random_id(size = 8)

@@ -13,14 +13,15 @@ Votatoes::Application.routes.draw do
   get 'votatos/find', :as => 'find_votato'
   get 'votatos/search', :as => 'search_votato'
   # post 'votatos/search', :as => 'search_votato'
-  get 'votatos/new/:series_id' => 'votatos#new_votato', :as => 'new_votato'
-  post 'votatos/create/:series_id' => 'votatos#create_votato', :as => 'create_votato'
+  get 'votatos/new/:tvdbobj_id' => 'votatos#new_votato', :as => 'new_votato'
+  post 'votatos/create/:tvdbobj_id' => 'votatos#create_votato', :as => 'create_votato'
   delete 'votatos/:id' => 'votatos#destroy', :as => 'destroy_votato'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
   post 'votatos/:id/plant' => 'votatos#plant', :as => 'plant'
   post 'votatos/:id/pluck' => 'votatos#pluck', :as => 'pluck'
+  post 'tvdb' => 'votatos#tvdb'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

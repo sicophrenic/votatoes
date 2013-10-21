@@ -14,9 +14,13 @@
 
     %tbody
       - @plantations.each do |plantation|
+        - if plantation.media == 'TV'
+          - pluralized = 'tv shows'
+        - elsif plantation.media == 'Movie'
+          - pluralized = 'movies'
         %tr
           %td= link_to plantation.name, plantation_path(plantation)
-          %td #{plantation.votatos.count}
+          %td #{plantation.votatos.count} #{pluralized}
           %td #{plantation.last_updated_at}
           %td= link_to 'Destroy', plantation, :method => :delete, :data => { :confirm => 'Are you sure?' }
   %br

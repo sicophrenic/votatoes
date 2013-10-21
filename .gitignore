@@ -15,5 +15,8 @@
 /log/*.log
 /tmp
 
+# Annoying shit
+.DS_Store
+
 # Secret stuffs
 app_secrets.rb

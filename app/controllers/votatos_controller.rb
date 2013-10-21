@@ -1,32 +1,56 @@
 class VotatosController < ApplicationController
   before_action :require_signed_in, :except => [:plant, :pluck]
   before_action :set_votato, :only => [:plant, :pluck, :destroy]
+  before_action :load_tvdb, :only => [:tvdb]
 
   def find
   end
 
-  def search
-    @results = []
-    20.times do
-      @results << {
-        :series_id => "id-#{Votato.generate_random_id(20)}",
-        :title => "title-#{Votato.generate_random_id(10)}"
-      }
+  def tvdb
+    if params[:media] == 'TV'
+      search_query = params[:terms]
+      @results = @tvdb.search(search_query)
+    elsif params[:media] == 'Movie'
+      flash[:notice] = 'Movies not supported yet.'
+      redirect_to plantations_path
+      return
+    else
+      flash[:error] = 'Invalid media type selected.'
+      redirect_to find_votato_path
+      return
     end
+    search
+  end
+
+  def search
+    @movies_or_tvs = []
+    @results.each do |r|
+      series_id = r['seriesid'].to_i
+      tvdbobj = Tvdbobj.where(:series_id => series_id).first
+      if tvdbobj.nil?
+        @movies_or_tvs << Tvdbobj.create(
+          :series_id => series_id,
+          :name => r['SeriesName'],
+          :description => r['Overview'],
+          :image_url => r['banner'])
+      else
+        @movies_or_tvs << tvdbobj
+      end
+    end
+    render 'search'
   end
 
   def new_votato
-    @series_id = params[:series_id]
+    @tvdbobj = Tvdbobj.find(params[:tvdbobj_id])
     @plantations_options = '<option>' +
       current_user.plantations.collect(&:name).join('</option><option>') +
       '</option>'
   end
 
   def create_votato
-    @votato = Votato.new(:series_id => params[:series_id])
-    @plantation = Plantation.where(
-      :user_id => current_user,
-      :name => params[:plantation]).first
+    puts "-----#{params}-----"
+    @votato = Votato.new(:tvdbobj_id => params[:tvdbobj_id])
+    @plantation = Plantation.find_by(:user_id => current_user.id, :name => params[:plantation])
     if @plantation.nil?
       flash[:error] = "You don't own that Plantation!"
       redirect_to new_votato
@@ -130,5 +154,12 @@ class VotatosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def votato_params
       params[:votato]
+    end
+
+    def load_tvdb
+      unless @tvdb
+        @tvdb = TvdbParty::Search.new(
+          Rails.env.development? ? TVDB_SECRET_KEY : ENV['TVDB_SECRET_KEY'])
+      end
     end
 end

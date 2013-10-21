@@ -1,3 +1,17 @@
 %h1 Find
 
-= link_to 'Search', search_votato_path
+= form_tag tvdb_path, :method => :post, :class => 'form-horizontal' do
+  .form-group
+    = label_tag 'media', 'Media', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = select_tag 'media', "<option>Movie</option><option>TV</option>".html_safe, :class => 'form-control'
+  .form-group
+    = label_tag 'terms', 'Search Terms', :class => 'col-lg-2 control-label'
+    .col-lg-5
+      = text_field_tag 'terms', nil, :placeholder => 'Search for something', :class => 'form-control', :type => 'text'
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = submit_tag 'Search', :class => 'btn btn-default'
+
+- if Rails.env.development?
+  = link_to 'Search', search_votato_path

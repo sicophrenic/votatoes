@@ -1,22 +1,25 @@
 %h1 Search
 
-- if @results.count > 0
+- if @movies_or_tvs.count > 0
   %table.table.table-bordered.table-hover
     %thead
       %tr
-        %th
-          Field 1
-        %th
-          Field 2
-        %th
+        %th.col-lg-2
+          Name
+        %th.col-lg-9
+          Description
+        %th.col-lg-1
+          Add
     %tbody
-      - @results.each do |result|
+      - @movies_or_tvs.each do |tvdbobj|
         %tr
-          %td
-            #{result[:series_id]}
-          %td
-            #{result[:title]}
-          %td
-            = link_to 'Add', new_votato_path(result[:series_id])
+          %td.col-lg-2
+            %a{ :href => tvdbobj.link_to_tvdb }
+              #{tvdbobj.name}
+          %td.col-lg-9
+            #{tvdbobj.description}
+          %td.col-lg-1
+            = link_to new_votato_path(tvdbobj.id), :method => :get, :class => 'btn btn-info btn-small' do
+              %span.glyphicon.glyphicon-plus
 - else
   Crap.

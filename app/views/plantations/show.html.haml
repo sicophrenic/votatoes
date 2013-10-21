@@ -6,22 +6,29 @@
       %tr
         %th.col-lg-1
           Vote
+        %th.col-lg-1
+          Ranking
         %th.col-lg-2
-          Current Ranking
-        %th
           Title
-        %th
+        %th.col-lg-7
+          Banner
+        %th.col-lg-1
+          Action
     %tbody
       - @votatoes.each do |votato|
         %tr
           %td.col-lg-1
-            = link_to plant_path(votato.id), :method => :post, :class => 'btn btn-success btn-sm' do
+            = link_to plant_path(votato.id), :method => :post, :class => 'btn btn-success btn-xs' do
               %span.glyphicon.glyphicon-arrow-up
-            = link_to pluck_path(votato.id), :method => :post, :class => 'btn btn-danger btn-sm' do
+            = link_to pluck_path(votato.id), :method => :post, :class => 'btn btn-danger btn-xs' do
               %span.glyphicon.glyphicon-arrow-down
-          %td.col-lg-2 #{votato.total}
-          %td= link_to votato.title, '#'
-          %td= link_to 'Destroy', destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %td.col-lg-1 #{votato.total}
+          %td.col-lg-2= link_to votato.tvdbobj.name, votato.tvdbobj.link_to_tvdb
+          %td.col-lg-7
+            %img{ :src => votato.tvdbobj.img_src }
+          %td.col-lg-1
+            = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
+              %span.glyphicon.glyphicon-remove
 - else
   .jumbotron
     .container

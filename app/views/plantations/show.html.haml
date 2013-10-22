@@ -19,8 +19,12 @@
           %th.col-lg-5
             Description
         %th.col-lg-1
-          = link_to find_votato_path, :class => 'btn btn-primary btn-sm' do
-            %span.glyphicon.glyphicon-plus
+          - if @plantation.user == current_user
+            = link_to find_votato_path, :class => 'btn btn-primary btn-sm' do
+              %span.glyphicon.glyphicon-plus
+          - else
+            = link_to find_votato_path, :disabled => true, :class => 'btn btn-primary btn-sm' do
+              %span.glyphicon.glyphicon-plus
     %tbody
       - @votatoes.each do |votato|
         %tr
@@ -40,8 +44,12 @@
             %td.col-lg-5
               #{votato.obj.description}
           %td.col-lg-1
-            = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
-              %span.glyphicon.glyphicon-remove
+            - if @plantation.user == current_user
+              = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
+                %span.glyphicon.glyphicon-remove
+            - else
+              = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :disabled => true, :class => 'btn btn-danger btn-sm' do
+                %span.glyphicon.glyphicon-remove
 - else
   .jumbotron
     .container

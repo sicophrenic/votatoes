@@ -2,6 +2,7 @@
 class PlantationsController < ApplicationController
   before_action :require_signed_in
   before_action :set_plantation, only: [:show, :edit, :update, :destroy]
+  before_action :verify_owner, :only => [:edit, :update, :destroy]
 
   # GET /plantations
   # GET /plantations.json
@@ -12,8 +13,8 @@ class PlantationsController < ApplicationController
   # GET /plantations/1
   # GET /plantations/1.json
   def show
-    if @plantation.user != current_user
-      flash[:error] = 'You do not own that plantation!'
+    if @plantation.privacy == 'Private' && @plantation.user != current_user
+      flash[:error] = 'You do not have permission to view that plantation!'
       redirect_to root_path
       return
     end
@@ -79,5 +80,13 @@ class PlantationsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def plantation_params
       params[:plantation]
+    end
+
+    def verify_owner
+      if @plantation.user != current_user
+        flash[:error] = 'Not your plantation.'
+        redirect_to root_path
+        return
+      end
     end
 end

@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-#
 class PlantationsController < ApplicationController
   before_action :require_signed_in
   before_action :set_plantation, only: [:show, :edit, :update, :destroy]
@@ -5,12 +6,17 @@ class PlantationsController < ApplicationController
   # GET /plantations
   # GET /plantations.json
   def index
-    @plantations = Plantation.all
+    @plantations = Plantation.where(:user_id => current_user.id)
   end
 
   # GET /plantations/1
   # GET /plantations/1.json
   def show
+    if @plantation.user != current_user
+      flash[:error] = 'You do not own that plantation!'
+      redirect_to root_path
+      return
+    end
     @votatoes = @plantation.votatoes.order('total DESC, updated_at DESC')
   end
 

@@ -19,7 +19,8 @@
           %th.col-lg-5
             Description
         %th.col-lg-1
-          Action
+          = link_to find_votato_path, :class => 'btn btn-primary btn-sm' do
+            %span.glyphicon.glyphicon-plus
     %tbody
       - @votatoes.each do |votato|
         %tr
@@ -51,7 +52,8 @@
 
 %br
 
-- if @plantation.user == current_user
+- if @plantation.user == current_user && false
+  / TODO: figure out what there is to edit
   = link_to 'Edit', edit_plantation_path(@plantation)
   \|
-= link_to 'Back', plantations_path
+/= link_to 'Back', plantations_path

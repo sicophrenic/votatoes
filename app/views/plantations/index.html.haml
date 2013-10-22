@@ -11,6 +11,8 @@
         %th
           Most Recent Activity
         %th
+          = link_to 'new_plantation_path', :class => 'btn btn-primary btn-sm' do
+            %span.glyphicon.glyphicon-plus
 
     %tbody
       - @plantations.each do |plantation|
@@ -31,5 +33,3 @@
     .container
       %h2 You don't have any plantations!
       %p Start by creating a plantation
-
-= link_to 'New Plantation', new_plantation_path

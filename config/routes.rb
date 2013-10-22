@@ -11,6 +11,7 @@ Votatoes::Application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
   get "pages/home"
+  get 'pages/about', :as => 'about'
   get 'votatos/find', :as => 'find_votato'
   get 'votatos/search', :as => 'search_votato'
 

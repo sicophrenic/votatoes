@@ -78,7 +78,11 @@ class VotatosController < ApplicationController
     end
     @votato.plantation = @plantation
     @votato.save
-    redirect_to @plantation
+    if params[:again]
+      redirect_to find_votato_path
+    else
+      redirect_to @plantation
+    end
   end
 
   def new_tmdb_votato
@@ -98,7 +102,11 @@ class VotatosController < ApplicationController
     end
     @votato.plantation = @plantation
     @votato.save
-    redirect_to @plantation
+    if params[:again]
+      redirect_to find_votato_path
+    else
+      redirect_to @plantation
+    end
   end
 
   def plant # upvote

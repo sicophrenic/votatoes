@@ -103,16 +103,16 @@ class VotatosController < ApplicationController
 
   def plant # upvote
     return unless user_signed_in? || @votato.plantation.privacy == 'Public'
-    @votato.total += 1
-    @votato.save
+    if !Vote.add_plant(current_user, @votato)
+      # flash[:error] = 'Something went wrong.'
+    end
     redirect_to @votato.plantation
   end
 
   def pluck # downvote
     return unless user_signed_in? || @votato.plantation.privacy == 'Public'
-    if @votato.total > 0
-      @votato.total -= 1
-      @votato.save
+    if !Vote.add_pluck(current_user, @votato)
+      # flash[:error] = 'Something went wrong.'
     end
     redirect_to @votato.plantation
   end

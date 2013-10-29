@@ -4,6 +4,11 @@ class Votato < ActiveRecord::Base
 
   belongs_to :plantation
 
+  has_many :votes
+
+  PLANT = '+'
+  PLUCK = '-'
+
   def obj
     if media_type == 'TV'
       Tvdbobj.find(obj_id)

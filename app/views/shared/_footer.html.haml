@@ -14,6 +14,6 @@
     = params.inspect
     %h3 Flash:
     = flash.inspect
-    - if session[:admin_loaded]
-      %h3 Session:
-      = session.inspect
+    %h3 Session:
+    %h4
+      TVDBOBJ: #{session[:tvdbobj] || 'None'}, TMDBOBJ: #{session[:tmdbobj] || 'None'}

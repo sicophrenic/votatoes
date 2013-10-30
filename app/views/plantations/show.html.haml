@@ -1,5 +1,20 @@
 %h1 #{@plantation.name}
 
+- if @saved_tvdbobj
+  .jumbotron
+    .container
+      %h2 You have a saved Votato!
+      %p You can add #{Tvdbobj.find(@saved_tvdbobj).name} to this plantation right away!
+      %p
+        = link_to 'Add Saved Votato', new_tvdb_votato_path(@saved_tvdbobj), :class => 'btn btn-primary btn-large'
+- if @saved_tmdbobj
+  .jumbotron
+    .container
+      %h2 You have a saved Votato!
+      %p You can add #{Tmdbobj.find(@saved_tmdbobj).name} to this plantation right away!
+      %p
+        = link_to 'Add Saved Votato', new_tmdb_votato_path(@saved_tmdbobj), :class => 'btn btn-primary btn-large'
+
 - if @votatoes.count > 0
   %table.table.table-bordered.table-hover
     %thead

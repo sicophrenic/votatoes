@@ -62,13 +62,22 @@ class VotatosController < ApplicationController
   end
 
   def new_tvdb_votato
+    session[:tvdbobj] = @tvdbobj.id
     @tvdbobj = Tvdbobj.find(params[:obj_id])
     plantations = current_user.plantations.where(:media => 'TV')
+    if plantations.empty?
+      flash[:notice] = 'Before you can add that TV show, you need to create a valid plantation.'
+      redirect_to new_plantation_path
+      return
+    end
     @plantations_options = '<option>' +
       plantations.collect(&:name).join('</option><option>') +
       '</option>'
   end
   def create_tvdb_votato
+    if params[:obj_id] == session[:tvdbobj]
+      session.delete(:tvdbobj)
+    end
     @votato = Votato.new(:obj_id => params[:obj_id])
     @plantation = Plantation.find_by(:user_id => current_user.id, :name => params[:plantation])
     if @plantation.nil?
@@ -86,13 +95,22 @@ class VotatosController < ApplicationController
   end
 
   def new_tmdb_votato
+    session[:tmdbobj] = @tmdbobj.id
     @tmdbobj = Tmdbobj.find(params[:obj_id])
     plantations = current_user.plantations.where(:media => 'Movie')
+    if plantations.empty?
+      flash[:notice] = 'Before you can add that movie, you need to create a valid plantation.'
+      redirect_to new_plantation_path
+      return
+    end
     @plantations_options = '<option>' +
       plantations.collect(&:name).join('</option><option>') +
       '</option>'
   end
   def create_tmdb_votato
+    if params[:obj_id] == session[:tmdbobj]
+      session.delete(:tmdbobj)
+    end
     @votato = Votato.new(:obj_id => params[:obj_id])
     @plantation = Plantation.find_by(:user_id => current_user.id, :name => params[:plantation])
     if @plantation.nil?

@@ -18,6 +18,12 @@ class PlantationsController < ApplicationController
       redirect_to root_path
       return
     end
+    if @plantation.media == 'Movie' && session[:tmdbobj]
+      @saved_tmdbobj = session.delete(:tmdbobj)
+    end
+    if @plantation.media == 'TV' && session[:tvdbobj]
+      @saved_tvdbobj = session.delete(:tvdbobj)
+    end
     @votatoes = @plantation.votatoes.order('total DESC, updated_at DESC')
   end
 

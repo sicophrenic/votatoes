@@ -1,37 +1,68 @@
-%h1 Your plantations
+/ - if @plantations.count > 0
+/   %table.table.table-bordered.table-hover
+/     %thead
+/       %tr
+/         %th
+/           Name
+/         %th
+/           Count
+/         %th
+/           Most Recent Activity
+/         %th
+/           = link_to new_plantation_path, :class => 'btn btn-primary btn-sm' do
+/             %span.glyphicon.glyphicon-plus
 
-- if @plantations.count > 0
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-        %th
-          Name
-        %th
-          Count
-        %th
-          Most Recent Activity
-        %th
-          = link_to new_plantation_path, :class => 'btn btn-primary btn-sm' do
-            %span.glyphicon.glyphicon-plus
+/     %tbody
+/       - @plantations.each do |plantation|
+/         - if plantation.media == 'TV'
+/           - pluralized = 'tv shows'
+/         - elsif plantation.media == 'Movie'
+/           - pluralized = 'movies'
+/         %tr
+/           %td= link_to plantation.name, plantation_path(plantation)
+/           %td #{plantation.votatos.count} #{pluralized}
+/           %td #{plantation.last_updated_at}
+/           %td
+/             = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
+/               %span.glyphicon.glyphicon-remove
+/   %br
+/ - else
+/   .jumbotron
+/     .container
+/       %h2 You don't have any plantations!
+/       %p Start by creating a plantation
+/       %p
+/         = link_to 'New Plantation', new_plantation_path, :class => 'btn btn-primary btn-lg'
 
-    %tbody
-      - @plantations.each do |plantation|
-        - if plantation.media == 'TV'
-          - pluralized = 'tv shows'
-        - elsif plantation.media == 'Movie'
-          - pluralized = 'movies'
-        %tr
-          %td= link_to plantation.name, plantation_path(plantation)
-          %td #{plantation.votatos.count} #{pluralized}
-          %td #{plantation.last_updated_at}
-          %td
-            = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
-              %span.glyphicon.glyphicon-remove
-  %br
-- else
-  .jumbotron
-    .container
-      %h2 You don't have any plantations!
-      %p Start by creating a plantation
-      %p
-        = link_to 'New Plantation', new_plantation_path, :class => 'btn btn-primary btn-lg'
+.plantations
+  - @plantations.each do |plantation|
+    - if plantation.media == 'TV'
+      - pluralized = 'tv shows'
+    - elsif plantation.media == 'Movie'
+      - pluralized = 'movies'
+    %ul.bare-ul.inner-plantation
+      %li.outer
+        %ul.bare-ul.inner-ul
+          %li.inner-content
+            = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'img-link' do
+              %img.plantation-action{ :src => '/assets/glyphicons/glyphicons_197_remove.png' }
+          %li.inner-title
+            %br
+      %li.outer
+        %ul.bare-ul.inner-ul
+          %li.inner-content
+            %a{ :href => plantation_path(plantation) } #{plantation.name}
+          %li.inner-title
+            Plantation name
+      %li.outer
+        %ul.bare-ul.inner-ul
+          %li.inner-content
+            #{plantation.votatoes.count} #{pluralized}
+          %li.inner-title
+            Number of votatoes
+      %li.outer
+        %ul.bare-ul.inner-ul
+          %li.inner-content
+            #{plantation.last_updated_at}
+          %li.inner-title
+            Recent activity

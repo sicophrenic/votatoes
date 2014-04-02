@@ -8,7 +8,7 @@
 
 - if Rails.env.development?
   .debug
-    _____
+    ____
     %h2 Debug Info:
     %h3 Params:
     = params.inspect
@@ -16,4 +16,7 @@
     = flash.inspect
     %h3 Session:
     %h4
-      TVDBOBJ: #{session[:tvdbobj] || 'None'}, TMDBOBJ: #{session[:tmdbobj] || 'None'}
+      - if session[:tvdbobj]
+        TVDBOBJ: #{session[:tvdbobj]}
+      - if session[:tmdbobj]
+        TMDBOBJ: #{session[:tmdbobj]}

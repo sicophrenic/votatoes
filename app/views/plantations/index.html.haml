@@ -23,7 +23,7 @@
 /           %td #{plantation.votatos.count} #{pluralized}
 /           %td #{plantation.last_updated_at}
 /           %td
-/             = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
+/             = link_to plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
 /               %span.glyphicon.glyphicon-remove
 /   %br
 / - else
@@ -44,7 +44,7 @@
       %li.outer
         %ul.bare-ul.inner-ul
           %li.inner-content
-            = link_to destroy_plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'img-link' do
+            = link_to plantation_path(plantation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'img-link' do
               %img.plantation-action{ :src => '/assets/glyphicons/glyphicons_197_remove.png' }
           %li.inner-title
             %br

@@ -1,14 +1,7 @@
 %h1 Add Votato: #{@tvdbobj.name}
 
-= form_tag create_tvdb_votato_path(@tvdbobj.id), :method => :post, :role => 'form', :class => 'form-horizontal' do
-  .form-group
-    = label_tag 'plantation', 'Plantation', :class => 'col-lg-2 control-label'
-    .col-lg-5
-      = select_tag 'plantation', @plantations_options.html_safe, :class => 'form-control'
-  .form-group
-    .col-lg-5
-      = check_box_tag 'again', 'Search for more?'
-
-  .form-group
-    .col-lg-offset-2.col-lg-10
-      = submit_tag 'Add Votato', :class => 'btn btn-default'
+= form_tag create_tvdb_votato_path(@tvdbobj.id), :method => :post do
+  = label_tag 'plantation', 'Plantation', :class => 'col-lg-2 control-label'
+  = select_tag 'plantation', @plantations_options.html_safe, :class => 'form-control'
+  = check_box_tag 'again', 'Search for more?'
+  = submit_tag 'Add Votato'

@@ -1,82 +1,23 @@
 %h1 #{@plantation.name}
 
 - if @saved_tvdbobj
-  .jumbotron
-    .container
-      %h2 You have a saved Votato!
-      %p You can add #{Tvdbobj.find(@saved_tvdbobj).name} to this plantation right away!
-      %p
-        = link_to 'Add Saved Votato', new_tvdb_votato_path(@saved_tvdbobj), :class => 'btn btn-primary btn-large'
+  = link_to 'Add Saved TV Votato', new_tvdb_votato_path(@saved_tvdbobj)
 - if @saved_tmdbobj
-  .jumbotron
-    .container
-      %h2 You have a saved Votato!
-      %p You can add #{Tmdbobj.find(@saved_tmdbobj).name} to this plantation right away!
-      %p
-        = link_to 'Add Saved Votato', new_tmdb_votato_path(@saved_tmdbobj), :class => 'btn btn-primary btn-large'
+  = link_to 'Add Saved Movie Votato', new_tmdb_votato_path(@saved_tmdbobj)
 
 - if @votatoes.count > 0
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-        %th.col-lg-1
-          Vote
-        %th.col-lg-1
-          Ranking
-        %th.col-lg-2
-          Title
-        - if @plantation.media == 'TV'
-          %th.col-lg-7
-            Banner
-        - else
-          %th.col-lg-2
-            Banner
-          %th.col-lg-5
-            Description
-        %th.col-lg-1
-          - if @plantation.user == current_user
-            = link_to find_votato_path, :class => 'btn btn-primary btn-sm' do
-              %span.glyphicon.glyphicon-plus
-          - else
-            = link_to find_votato_path, :disabled => true, :class => 'btn btn-primary btn-sm' do
-              %span.glyphicon.glyphicon-plus
-    %tbody
-      - @votatoes.each do |votato|
-        %tr
-          %td.col-lg-1
-            = link_to plant_path(votato.id), :method => :post, :class => 'btn btn-success btn-xs' do
-              %span.glyphicon.glyphicon-arrow-up
-            = link_to pluck_path(votato.id), :method => :post, :class => 'btn btn-danger btn-xs' do
-              %span.glyphicon.glyphicon-arrow-down
-          %td.col-lg-1 #{votato.total}
-          %td.col-lg-2= link_to votato.obj.name, votato.obj.external_link
-          - if @plantation.media == 'TV'
-            %td.col-lg-7
-              %img{ :src => votato.obj.img_src }
-          - else
-            %td.col-lg-2
-              %img{ :src => votato.obj.img_src }
-            %td.col-lg-5
-              #{votato.obj.description}
-          %td.col-lg-1
-            - if @plantation.user == current_user
-              = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger btn-sm' do
-                %span.glyphicon.glyphicon-remove
-            - else
-              = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' }, :disabled => true, :class => 'btn btn-danger btn-sm' do
-                %span.glyphicon.glyphicon-remove
+  - @votatoes.each do |votato|
+    = link_to plant_path(votato.id), :method => :post do
+      Up
+    = link_to pluck_path(votato.id), :method => :post do
+      Down
+    = link_to votato.obj.name, votato.obj.external_link
+    = link_to destroy_votato_path(votato.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
+      Delete
+
 - else
-  .jumbotron
-    .container
-      %h2 You don't have any votatoes yet!
-      %p Start by adding some more to plantation '#{@plantation.name}'
-      %p
-        = link_to 'Start Here', find_votato_path, :class => 'btn btn-primary btn-large'
+  = link_to 'Start Here', find_votato_path
 
-%br
-
-- if @plantation.user == current_user && false
-  / TODO: figure out what there is to edit
-  = link_to 'Edit', edit_plantation_path(@plantation)
-  \|
-/= link_to 'Back', plantations_path
+/ TODO - figure out what there is to edit
+/ - if @plantation.user == current_user && false
+/   = link_to 'Edit', edit_plantation_path(@plantation)

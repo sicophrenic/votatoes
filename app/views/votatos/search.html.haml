@@ -1,29 +1,18 @@
 %h1 Search
 
 - if @movies_or_tvs.count > 0
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-        %th.col-lg-2
-          Name
-        %th.col-lg-9
-          Description
-        %th.col-lg-1
-          Add
-    %tbody
-      - @movies_or_tvs.each do |obj|
-        %tr
-          %td.col-lg-2
-            %a{ :href => obj.external_link }
-              #{obj.name}
-          %td.col-lg-9
-            #{obj.description}
-          %td.col-lg-1
-            - if obj.is_a?(Tvdbobj)
-              = link_to new_tvdb_votato_path(obj.id), :method => :get, :class => 'btn btn-info btn-small' do
-                %span.glyphicon.glyphicon-plus
-            - else
-              = link_to new_tmdb_votato_path(obj.id), :method => :get, :class => 'btn btn-info btn-small' do
-                %span.glyphicon.glyphicon-plus
+  %ul
+    - @movies_or_tvs.each do |obj|
+      %li
+        #{obj.name}
+      %li
+        - if obj.is_a?(Tvdbobj)
+          = link_to new_tvdb_votato_path(obj.id), :method => :get do
+            Add TV Show
+        - else
+          = link_to new_tmdb_votato_path(obj.id), :method => :get do
+            Add Movie
 - else
   Crap.
+
+/ TODO - rename this to results?

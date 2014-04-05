@@ -8,7 +8,6 @@
 
 - if Rails.env.development?
   .debug
-    ____
     %h2 Debug Info:
     %h3 Params:
     = params.inspect
@@ -18,5 +17,6 @@
     %h4
       - if session[:tvdbobj]
         TVDBOBJ: #{session[:tvdbobj]}
+        %br
       - if session[:tmdbobj]
         TMDBOBJ: #{session[:tmdbobj]}

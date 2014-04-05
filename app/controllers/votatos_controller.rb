@@ -62,7 +62,6 @@ class VotatosController < ApplicationController
   end
 
   def new_tvdb_votato
-    session[:tvdbobj] = @tvdbobj.id
     @tvdbobj = Tvdbobj.find(params[:obj_id])
     plantations = current_user.plantations.where(:media => 'TV')
     if plantations.empty?
@@ -95,7 +94,6 @@ class VotatosController < ApplicationController
   end
 
   def new_tmdb_votato
-    session[:tmdbobj] = @tmdbobj.id
     @tmdbobj = Tmdbobj.find(params[:obj_id])
     plantations = current_user.plantations.where(:media => 'Movie')
     if plantations.empty?
@@ -148,68 +146,6 @@ class VotatosController < ApplicationController
     @votato.destroy
     redirect_to @plantation
   end
-
-  # before_action :set_votato, only: [:show, :edit, :update, :destroy]
-
-  # # GET /votatos
-  # # GET /votatos.json
-  # def index
-  #   @votatos = Votato.all
-  # end
-
-  # # GET /votatos/1
-  # # GET /votatos/1.json
-  # def show
-  # end
-
-  # # GET /votatos/new
-  # def new
-  #   @votato = Votato.new
-  # end
-
-  # # GET /votatos/1/edit
-  # def edit
-  # end
-
-  # # POST /votatos
-  # # POST /votatos.json
-  # def create
-  #   @votato = Votato.new(votato_params)
-
-  #   respond_to do |format|
-  #     if @votato.save
-  #       format.html { redirect_to @votato, notice: 'Votato was successfully created.' }
-  #       format.json { render action: 'show', status: :created, location: @votato }
-  #     else
-  #       format.html { render action: 'new' }
-  #       format.json { render json: @votato.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-
-  # # PATCH/PUT /votatos/1
-  # # PATCH/PUT /votatos/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @votato.update(votato_params)
-  #       format.html { redirect_to @votato, notice: 'Votato was successfully updated.' }
-  #       format.json { head :no_content }
-  #     else
-  #       format.html { render action: 'edit' }
-  #       format.json { render json: @votato.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-
-  # # DELETE /votatos/1
-  # # DELETE /votatos/1.json
-  # def destroy
-  #   @votato.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to votatos_url }
-  #     format.json { head :no_content }
-  #   end
-  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
